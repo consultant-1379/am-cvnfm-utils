@@ -1,0 +1,49 @@
+serviceAccounts:
+  alertmanager:
+    create: false
+    name:
+    annotations: {}
+  nodeExporter:
+    create: true
+    name:
+    annotations: {}
+  pushgateway:
+    create: false
+    name:
+    annotations: {}
+  server:
+    create: true
+    name:
+    annotations: {}
+
+alertmanager:
+  enabled: false
+
+configmapReload:
+  prometheus:
+    enabled: false
+  alertmanager:
+    enabled: false
+
+
+kubeStateMetrics:
+  enabled: true
+
+nodeExporter:
+  enabled: false
+
+server:
+  enabled: true
+  image:
+    repository: quay.io/prometheus/prometheus
+    tag: v2.26.0
+    pullPolicy: IfNotPresent
+  resources: {}
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - prometheus.evnfm.hahn131.rnd.gic.ericsson.se
+
+pushgateway:
+  enabled: false

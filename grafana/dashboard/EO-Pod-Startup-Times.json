@@ -1,0 +1,4262 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 67,
+  "iteration": 1695740143190,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": true,
+      "title": "PDF Report",
+      "tooltip": "",
+      "type": "link",
+      "url": "http://reporter.ccd-c3b002-iccr.athtem.eei.ericsson.se/api/v5/report/adp"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 94,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 180
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 1
+          },
+          "id": 82,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${evnfm_toscao_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${evnfm_toscao_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "evnfm-toscao",
+          "type": "gauge"
+        }
+      ],
+      "title": "TOSCA-O",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 92,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 2
+          },
+          "id": 80,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${oss_common_postgres_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${oss_common_postgres_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "oss-common-postgres-db",
+          "type": "gauge"
+        }
+      ],
+      "title": "OSS Common DB",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 90,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 120
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 3
+          },
+          "id": 74,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${eo_usermgmt_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${eo_usermgmt_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "eo-user-management",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 11
+          },
+          "id": 76,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${eo_usermgmt_ui_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${eo_usermgmt_ui_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "eo-user-management-ui",
+          "type": "gauge"
+        }
+      ],
+      "title": "User Management",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 88,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 180
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 4
+          },
+          "id": 75,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${eo_lm_consumer_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${eo_lm_consumer_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "eo-lm-consumer",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 12
+          },
+          "id": 77,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${lm_combined_server_db_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${lm_combined_server_db_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "lm-combined-server-db-pg",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 20
+          },
+          "id": 79,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${lm_combined_server_client_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${lm_combined_server_client_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "lm-combined-server-license-server-client",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 28
+          },
+          "id": 78,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${lm_combined_server_license_consumer_handler_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${lm_combined_server_license_consumer_handler_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "lm-combined-server-license-consumer-handler",
+          "type": "gauge"
+        }
+      ],
+      "title": "Licensing services",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 86,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 300
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 5
+          },
+          "id": 72,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${eo_api_gateway_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${eo_api_gateway_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "eo-api-gateway",
+          "type": "gauge"
+        }
+      ],
+      "title": "API Gateway",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 84,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 6
+          },
+          "id": 30,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${object_storage_mn_mgt_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${object_storage_mn_mgt_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "data-object-storage-mn-mgt",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 14
+          },
+          "id": 70,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${object_storage_mn_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${object_storage_mn_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "data-object-storage-mn",
+          "type": "gauge"
+        }
+      ],
+      "title": "Object Storage",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 68,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 7
+          },
+          "id": 31,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${helm_chart_registry_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${helm_chart_registry_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "lcm-helm-chart-registry",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 15
+          },
+          "id": 69,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${container_registry_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${container_registry_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "lcm-container-registry",
+          "type": "gauge"
+        }
+      ],
+      "title": "Helm Chart/Container Registry",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 66,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 120
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 8
+          },
+          "id": 17,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${cm_mediator_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${cm_mediator_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${cm_mediator_notifier_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${cm_mediator_notifier_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "configuration-management-mediator",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 120
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 16
+          },
+          "id": 18,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${cm_mediator_db_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${cm_mediator_db_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "configuration-management-mediator-db-postgres",
+          "type": "gauge"
+        }
+      ],
+      "title": "CM Mediator",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 64,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 150
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 9
+          },
+          "id": 28,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${fh_snmp_alarm_provider_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${fh_snmp_alarm_provider_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "fh-snmp-alarm-provider",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 17
+          },
+          "id": 27,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${fh_alarm_handler_db_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${fh_alarm_handler_db_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "fh-alarm-handler-database-postgres",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 120
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 25
+          },
+          "id": 71,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${fh_event_to_alarm_adapter_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${fh_event_to_alarm_adapter_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "fh-event-to-alarm-adapter",
+          "type": "gauge"
+        }
+      ],
+      "title": "Alarm Services",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 62,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 10
+          },
+          "id": 19,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${cnom_server_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${cnom_server_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "cnom-server",
+          "type": "gauge"
+        }
+      ],
+      "title": "CNOM Server",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 60,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 150
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 11
+          },
+          "id": 22,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${data_dced_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${data_dced_pod_name}\"})",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "data-distributed-coordinator-ed",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 19
+          },
+          "id": 23,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${data_dced_agent_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${data_dced_agent_pod_name}\"})",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "data-distributed-coordinator-ed-agent",
+          "type": "gauge"
+        }
+      ],
+      "title": "Data Distributed Coordinator ED",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 58,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 45
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 12
+          },
+          "id": 39,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${mesh_controller_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${mesh_controller_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "mesh-controller",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 45
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 20
+          },
+          "id": 41,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${service_mesh_gw_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${service_mesh_gw_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "service-mesh-ingress-gateway",
+          "type": "gauge"
+        }
+      ],
+      "title": "Service Mesh",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 56,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 13
+          },
+          "id": 33,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${pm_kube_state_metrics_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${pm_kube_state_metrics_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "pm-kube-state-metrics",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 21
+          },
+          "id": 34,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${pm_server_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${pm_server_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "pm-server",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 120
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 29
+          },
+          "id": 42,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${pm_alert_manager_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${pm_alert_manager_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "pm-alert-manager",
+          "type": "gauge"
+        }
+      ],
+      "title": "PM Server",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 54,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 270
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 14
+          },
+          "id": 32,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${log_transformer_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${log_transformer_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "log-transformer",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 30
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 22
+          },
+          "id": 29,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${log_shipper_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${log_shipper_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "log-shipper",
+          "type": "gauge"
+        }
+      ],
+      "title": "Logging Services",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 52,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 45
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 15
+          },
+          "id": 4,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${cn_kvdb_redis_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${cn_kvdb_redis_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "cloud-native-kvdb-redis",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 45
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 23
+          },
+          "id": 24,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${cn_kvdb_redis_operand_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${cn_kvdb_redis_operand_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "cloud-native-kvdb-redis-operand",
+          "type": "gauge"
+        }
+      ],
+      "title": "KVDB Redis",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 50,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 16
+          },
+          "id": 16,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${gui_aggregator_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${gui_aggregator_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "adp-gui-aggregator-service",
+          "type": "gauge"
+        }
+      ],
+      "title": "GUI Aggregator",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 48,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 150
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 25
+          },
+          "id": 21,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${data_search_engine_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${data_search_engine_pod_name}\"})",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "data-search-engine-data",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 150
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 33
+          },
+          "id": 26,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${data_search_engine_master_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${data_search_engine_master_pod_name}\"})",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "data-search-engine-master",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 150
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 41
+          },
+          "id": 25,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${data_search_engine_ingest_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${data_search_engine_ingest_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "data-search-engine-ingest",
+          "type": "gauge"
+        }
+      ],
+      "title": "Search Engine",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 46,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 18
+          },
+          "id": 20,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${ctrl_bro_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${ctrl_bro_pod_name}\"})",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "backup-restore-orchestrator",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 26
+          },
+          "id": 81,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${oss_common_bragent_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${oss_common_bragent_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "oss-common-postgres-bragent",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 34
+          },
+          "id": 73,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${eo_common_br_agent_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${eo_common_br_agent_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "eo-common-br-agent",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 42
+          },
+          "id": 15,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${am_postres_bra_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${am_postres_bra_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "application-manager-postgres-bra",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 50
+          },
+          "id": 44,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${idam_db_bra_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${idam_db_bra_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "idam-database-postgres-bra",
+          "type": "gauge"
+        }
+      ],
+      "title": "Backup Restore",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 8,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 240
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 19
+          },
+          "id": 36,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${sec_certm_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${sec_certm_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "security-certificate-management",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 27
+          },
+          "id": 38,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${sip_tls_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${sip_tls_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "security-identity-provider-tls",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 180
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 35
+          },
+          "id": 35,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${key_mgmt_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${key_mgmt_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "security-key-management",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 150
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 43
+          },
+          "id": 37,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${sec_access_mgmt_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${sec_access_mgmt_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "security-access-management",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 51
+          },
+          "id": 43,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${idam_db_pg_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${idam_db_pg_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "idam-database-postgres",
+          "type": "gauge"
+        }
+      ],
+      "title": "Security Services",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "id": 6,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 20
+          },
+          "id": 2,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${am_postgres_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${am_postgres_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "apllication-manager-postgres",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 150
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 28
+          },
+          "id": 11,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${am_onboarding_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${am_onboarding_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "am-onboarding-service",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 300
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 36
+          },
+          "id": 13,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${eo_evnfm_crypto_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${eo_evnfm_crypto_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "eo-evnfm-crypto",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 300
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 44
+          },
+          "id": 14,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${vnfm_orchestrator_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${vnfm_orchestrator_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "vnfm-orchestrator",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 150
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 52
+          },
+          "id": 9,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${am_common_wfs_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${am_common_wfs_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "am-common-wfs",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 60
+          },
+          "id": 10,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${am_common_wfs_ui_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${am_common_wfs_ui_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "am-common-wfs-ui",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "${__series.name}",
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "dthms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 68
+          },
+          "id": 12,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "text": {}
+          },
+          "pluginVersion": "8.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "(kube_pod_status_ready_time{namespace=\"${namespace}\",pod=~\"${eo_evnfm_nbi_pod_name}\"}) - (kube_pod_status_scheduled_time{namespace=\"${namespace}\",pod=~\"${eo_evnfm_nbi_pod_name}\"})",
+              "hide": false,
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "eo-evnfm-nbi",
+          "type": "gauge"
+        }
+      ],
+      "title": "CVNFM Services",
+      "type": "row"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "zihoiar-ns",
+          "value": "zihoiar-ns"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(namespace)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Namespace",
+        "multi": false,
+        "name": "namespace",
+        "options": [],
+        "query": {
+          "query": "label_values(namespace)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "hide": 2,
+        "name": "am_postgres_pod_name",
+        "query": "application-manager-postgres-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "am_common_wfs_pod_name",
+        "query": "eric-am-common-wfs-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "am_common_wfs_ui_pod_name",
+        "query": "eric-am-common-wfs-ui-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "am_onboarding_pod_name",
+        "query": "eric-am-onboarding-service-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "eo_evnfm_crypto_pod_name",
+        "query": "eric-eo-evnfm-crypto-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "eo_evnfm_nbi_pod_name",
+        "query": "eric-eo-evnfm-nbi-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "vnfm_orchestrator_pod_name",
+        "query": "eric-vnfm-orchestrator-service-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "am_postres_bra_pod_name",
+        "query": "application-manager-postgres-bragent-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "gui_aggregator_pod_name",
+        "query": "eric-adp-gui-aggregator-service-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "cn_kvdb_redis_pod_name",
+        "query": "eric-data-key-value-database-rd-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "cm_mediator_pod_name",
+        "query": "eric-cm-mediator-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "cm_mediator_notifier_pod_name",
+        "query": "eric-cm-mediator-notifier-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "cm_mediator_db_pod_name",
+        "query": "eric-cm-mediator-db-pg-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "cnom_server_pod_name",
+        "query": "eric-cnom-server-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "ctrl_bro_pod_name",
+        "query": "eric-ctrl-bro-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "data_dced_pod_name",
+        "query": "eric-data-distributed-coordinator-ed-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "data_dced_agent_pod_name",
+        "query": "eric-data-distributed-coordinator-ed-agent-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "data_search_engine_pod_name",
+        "query": "eric-data-search-engine-data-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "cn_kvdb_redis_operand_pod_name",
+        "query": "eric-cloud-native-kvdb-rd-operand-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "data_search_engine_ingest_pod_name",
+        "query": "eric-data-search-engine-ingest-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "data_search_engine_master_pod_name",
+        "query": "eric-data-search-engine-master-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "container_registry_pod_name",
+        "query": "eric-lcm-container-registry-registry-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "fh_alarm_handler_db_pod_name",
+        "query": "eric-fh-alarm-handler-db-pg-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "fh_snmp_alarm_provider_pod_name",
+        "query": "eric-fh-snmp-alarm-provider-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "log_shipper_pod_name",
+        "query": "eric-log-shipper-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "log_transformer_pod_name",
+        "query": "eric-log-transformer-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "helm_chart_registry_pod_name",
+        "query": "eric-lcm-helm-chart-registry-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "pm_kube_state_metrics_pod_name",
+        "query": "eric-pm-kube-state-metrics-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "pm_server_pod_name",
+        "query": "eric-pm-server-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "sec_access_mgmt_pod_name",
+        "query": "eric-sec-access-mgmt-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "sec_certm_pod_name",
+        "query": "eric-sec-certm-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "key_mgmt_pod_name",
+        "query": "eric-sec-key-management-main-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "sip_tls_pod_name",
+        "query": "eric-sec-sip-tls-main-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "mesh_controller_pod_name",
+        "query": "eric-mesh-controller-a-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "service_mesh_gw_pod_name",
+        "query": "service-mesh-ingress-gateway-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "pm_alert_manager_pod_name",
+        "query": "eric-pm-alert-manager-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "idam_db_pg_pod_name",
+        "query": "idam-database-pg-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "object_storage_mn_mgt_pod_name",
+        "query": "eric-data-object-storage-mn-mgt-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "object_storage_mn_pod_name",
+        "query": "eric-data-object-storage-mn-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "fh_event_to_alarm_adapter_pod_name",
+        "query": "eric-eo-fh-event-to-alarm-adapter-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "eo_api_gateway_pod_name",
+        "query": "eric-eo-api-gateway-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "eo_common_br_agent_pod_name",
+        "query": "eric-eo-common-br-agent-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "eo_lm_consumer_pod_name",
+        "query": "eric-eo-lm-consumer-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "lm_combined_server_db_pod_name",
+        "query": "eric-lm-combined-server-db-pg-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "lm_combined_server_client_pod_name",
+        "query": "eric-lm-combined-server-license-server-client-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "oss_common_postgres_pod_name",
+        "query": "eric-oss-common-postgres-[0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "oss_common_bragent_pod_name",
+        "query": "eric-oss-common-postgres-bragent-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "evnfm_toscao_pod_name",
+        "query": "evnfm-toscao-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "eo_usermgmt_pod_name",
+        "query": "eric-eo-usermgmt-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "eo_usermgmt_ui_pod_name",
+        "query": "eric-eo-usermgmt-ui-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "lm_combined_server_license_consumer_handler_pod_name",
+        "query": "eric-lm-combined-server-license-consumer-handler-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "idam_db_bra_pod_name",
+        "query": "idam-database-pg-bragent-[a-zA-Z0-9]*-[a-zA-Z0-9]*",
+        "skipUrlSync": false,
+        "type": "constant"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "EO Pod Startup Times",
+  "uid": "okPdXgzIk",
+  "version": 1,
+  "weekStart": ""
+}

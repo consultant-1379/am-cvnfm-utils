@@ -1,0 +1,59 @@
+Missing alert rules and fault mappings report
+
+Current releases:
+{{- range $releaseName, $version := .Releases }}
+  - {{ printf "name: %s" $releaseName }}
+    {{ printf "version: %s" $version }}
+{{- end }}
+
+Deployed resources (custom resources excluded):
+{{ if .KubeControllers.Deployments }}  Deployments:
+  {{- range $value := .KubeControllers.Deployments }}
+    - {{ printf "serviceName: %s" $value.Name }}
+  {{- end }}
+{{- end }}
+{{ if .KubeControllers.StatefulSets }}  StatefulSets:
+  {{- range $value := .KubeControllers.StatefulSets }}
+    - {{ printf "serviceName: %s" $value.Name }}
+  {{- end }}
+{{- end }}
+{{ if .KubeControllers.DaemonSets }}  DaemonSets:
+  {{- range $value := .KubeControllers.DaemonSets }}
+    - {{ printf "serviceName: %s" $value.Name }}
+  {{- end }}
+{{- end }}
+{{ if .MissingAlerts }}
+Missing alert rules for deployed resources:
+{{- range $resourceKind, $missingAlerts := .MissingAlerts }}  {{ if $missingAlerts }}
+  {{ printf "%s:" $resourceKind }}
+  {{- with $missingAlerts }}
+    {{- range $missingAlert := . }}
+    {{- if gt (len $missingAlert.MissingAlertRules) 0 }}
+    - {{ printf "serviceName: %s" $missingAlert.ServiceName }}
+      {{ printf "missingAlertRules:" }}
+        {{- range $rule := $missingAlert.MissingAlertRules }}
+        - {{ printf "%s" $rule }}
+    {{- end }}
+    {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
+
+{{ if .RedundantAlertRules }}Redundant alert rules:
+{{- range $value := .RedundantAlertRules }}
+  - {{ printf "serviceName: %s" $value  }}
+{{- end }}
+{{- end }}
+
+{{ if .MissingFaultMappings }}Missing fault mappings for alert rules:
+{{- range $serviceName, $rules := .MissingFaultMappings }}
+  - {{ printf "serviceName: %s" $serviceName }}
+  {{- with $rules }}
+  {{- range $rule := . }}
+    {{ printf "alertName: %s" $rule }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+{{- end }}

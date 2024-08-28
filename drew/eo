@@ -1,0 +1,685 @@
+#!/usr/bin/env bash
+#
+# COPYRIGHT Ericsson 2024
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+# Manually prepared before running script according to CPI
+# WORKING_DIR/eric-eo-helmfile-$EO_RELEASE_VERSION.csar
+# WORKING_DIR/logs/
+# WORKING_DIR/kube_config/config
+# WORKING_DIR/certificates/
+# WORKING_DIR/certificates/trusted/ # Optional requirement
+
+#set -o errexit
+set -o pipefail
+if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
+
+COMMAND="${1}"
+
+WORKING_DIR="$(dirname "$0")"
+SCRIPT_NAME="$(basename "$0")"
+
+# Constants
+PRODUCT="EO"
+VERSION_KUBERNETES=("1.25" "1.26" "1.27" "1.28" "1.29")
+VERSION_DOCKER=">=20.0.0"
+VERSION_UNZIP=">=6.00"
+VERSION_BASH=">=5.0.0"
+VERSION_EO=">=2.27.0"
+
+function renderValuesYaml() {
+  INFO "Rendering site values from the eo.conf template"
+  values="$(cat <<END
+global:
+  hosts:
+    gas: "$HOST_GAS"
+    iam: "$HOST_IDAM"
+    vnfm: "$HOST_VNFM"
+    gr: "$HOST_GR"
+  registry:
+    url: "$CLUSTER_REGISTRY_URL"
+    username: "$CLUSTER_REGISTRY_USER"
+    password: "$CLUSTER_REGISTRY_PASS"
+  meshConfig:
+    enableTracing: false
+    defaultConfig:
+      tracing:
+        sampling: 10
+  support:
+    ipv6:
+      enabled: false
+  timezone: UTC
+  ericsson:
+    licensing:
+      licenseDomains:
+        - customerId: "$NELS_CUSTOMER_ID"
+          productType: "$NELS_PRODUCT_TYPE"
+          swltId: "$NELS_SWLT_ID"
+          applicationId: "$NELS_APPLICATION_ID"
+  licensing:
+    sites:
+      - hostname: $HOST_NELS
+        ip: $IP_NELS
+        priority: 0
+tags:
+  eoCm: false
+  eoEvnfm: true
+  eoVmvnfm: false
+
+eric-cloud-native-base:
+  eric-ctrl-bro:
+    persistence:
+      persistentVolumeClaim:
+        size: "$CTRL_BRO_PVC_SIZE"
+  eric-data-search-engine:
+    service:
+      network:
+        protocol:
+          IPv6: false
+  eric-sec-access-mgmt:
+    accountManager:
+      enabled: false
+      inactivityThreshold: 18000
+  eric-log-transformer:
+    egress:
+      syslog:
+        enabled: false
+        remoteHosts: []
+        tls:
+          enabled: true
+  eric-data-object-storage-mn:
+    persistentVolumeClaim:
+      size: "$OSMN_PVC_SIZE"
+  eric-fh-snmp-alarm-provider:
+    sendAlarm: false
+
+geo-redundancy:
+  enabled: false
+backup-controller:
+  enabled: true
+
+eric-oss-common-base:
+  service-mesh-ingress-gateway:
+    service:
+      loadBalancerIP: "$LB_IP"
+  sessionTokens:
+    maxIdleTimeSecs: 3600
+    maxSessionDurationSecs: 36000
+  system-user:
+    credentials:
+      password: "systemTesting123!"
+      username: "system-user"
+  gas:
+    defaultUser:
+      password: "gasTesting123!"
+      username: "gas-user"
+
+eric-oss-function-orchestration-common:
+  eric-am-onboarding-service:
+    userSecret: container-credentials
+  eric-eo-evnfm-nbi:
+    eric-evnfm-rbac:
+      defaultUser:
+        password: "$PASSWORD"
+        username: "$USER"
+
+eric-eo-evnfm:
+  services:
+    onboarding:
+      enabled: true
+  eric-am-common-wfs:
+    userSecret: container-credentials
+    dockerRegistry:
+      secret: null
+  eric-lcm-container-registry:
+    ingress:
+      hostname: "$HOST_DOC_REG"
+  eric-lcm-helm-chart-registry:
+    ingress:
+      hostname: "$HOST_HELM_REG"
+    env:
+      secret:
+        BASIC_AUTH_PASS: "$HELM_REG_PASS"
+        BASIC_AUTH_USER: "$HELM_REG_USER"
+  eric-vnfm-orchestrator-service:
+    smallstack:
+      application: true
+    oss:
+      topology:
+        secretName: null
+
+eric-eo-evnfm-vm:
+  eric-vnflcm-service:
+    oss:
+      secretName: null
+    persistentVolumeClaim:
+      size: 20Gi
+    service:
+      enabled: false
+      loadBalancerIP: "$LB_IP_VMVNFM"
+      externalTrafficPolicy: Local
+  eric-vm-vnfm-migration:
+    migration:
+      enabled: true
+END
+  )"
+INFO "Site values rendered!"
+}
+
+function INFO() {
+  echo -e "[$(date +%Y-%m-%d' '%T,%3N)] [\033[0;36m$SCRIPT_NAME\033[0m] [\033[0;34m${FUNCNAME[0]}\033[0m]: $*"
+}
+
+function WARN() {
+  echo -e "[$(date +%Y-%m-%d' '%T,%3N)] [\033[0;36m$SCRIPT_NAME\033[0m] [\033[0;33m${FUNCNAME[0]}\033[0m]: $*"
+  [[ -n "$IS_DRY_RUN" ]] && echo "[$(date +%Y-%m-%d' '%T,%3N)] [\033[0;36m$SCRIPT_NAME\033[0m] [\033[0;35m${FUNCNAME[0]}\033[0m]: $*"
+}
+
+function DRY_RUN() {
+  echo -e "[$(date +%Y-%m-%d' '%T,%3N)] [\033[0;36m$SCRIPT_NAME\033[0m] [\033[0;32m${FUNCNAME[0]}\033[0m]: $*"
+}
+
+function ERROR() {
+  echo -e "[$(date +%Y-%m-%d' '%T,%3N)] [\033[0;36m$SCRIPT_NAME\033[0m] [\033[0;31m${FUNCNAME[0]}\033[0m]: $*"
+  exit 1
+}
+
+function RUN() {
+  CMD="$*"
+  if [[ -n "$IS_DRY_RUN" ]]; then
+    DRY_RUN "$CMD"
+    if [[ ! -t 0 ]]; then
+      read -r CMD_PIPE_CONTENT
+      DRY_RUN "PIPE START"
+      DRY_RUN "$CMD_PIPE_CONTENT"
+      DRY_RUN "PIPE END"
+    fi
+  else
+    /usr/bin/env bash -c "$CMD"
+  fi
+}
+
+function sourceConfig() {
+  [[ -z "$CONFIG_PATH" ]] && CONFIG_PATH="./$SCRIPT_NAME.conf"
+  [[ ! -f "$CONFIG_PATH" ]] && ERROR "Config file does not exist in: '$CONFIG_PATH'"
+  # shellcheck source=/dev/null
+  source "$CONFIG_PATH"
+}
+
+function checkWorkdirPermissions() {
+  [[ -r ${WORKING_DIR} ]] || ERROR "The user ${USER} doesn't have read permissions to directory ${WORKING_DIR}"
+  [[ -w ${WORKING_DIR} ]] || ERROR "The user ${USER} doesn't have write permissions to directory ${WORKING_DIR}"
+  [[ -x ${WORKING_DIR} ]] || ERROR "The user ${USER} doesn't have execute permissions to directory ${WORKING_DIR}"
+  INFO "Permissions for working directory is ok"
+}
+
+checkToolVersion() {
+  local TOOL_NAME=$1
+  local LOCAL_VERSION=$2
+  local TARGET_VERSION=$3
+  IFS='.' read -ra LOCAL_SEMANTIC_VERSION <<< "${LOCAL_VERSION}"
+
+  if [[ ${TARGET_VERSION:0:2} == ">=" ]]; then
+    IFS='.' read -ra TARGET_SEMANTIC_VERSION <<< "${TARGET_VERSION:2}"
+    for i in {0..2}; do
+      if [[ "${LOCAL_SEMANTIC_VERSION[i]}" > "${TARGET_SEMANTIC_VERSION[i]}" ]]; then
+        INFO "Local version of ${TOOL_NAME} is ${LOCAL_VERSION} which meets requirements: ${TARGET_VERSION}"
+        return 0
+      elif [[ "${LOCAL_SEMANTIC_VERSION[i]}" < "${TARGET_SEMANTIC_VERSION[i]}" ]]; then
+        ERROR "Local version of ${TOOL_NAME} is ${LOCAL_VERSION} which is not meet the required ${TARGET_VERSION}"
+      fi
+    done
+    INFO "Local version of ${TOOL_NAME} is ${LOCAL_VERSION} which meets requirements: ${TARGET_VERSION}"
+  else
+    if [[ "${LOCAL_VERSION}" == "${TARGET_VERSION}" ]]; then
+      INFO "Local version of ${TOOL_NAME} is ${LOCAL_VERSION} which meets requirements: ${TARGET_VERSION}"
+    else
+      ERROR "Local version of ${TOOL_NAME} is ${LOCAL_VERSION} which is not meet the required ${TARGET_VERSION}"
+    fi
+  fi
+}
+
+function checkKubeVersion() {
+  if ! command -v kubectl &> /dev/null; then
+    ERROR "Kubectl is not installed. Please install kubectl first"
+  fi
+  local KUBECTL_VERSION
+  KUBECTL_VERSION=$(kubectl version --short 2>/dev/null | grep -oP "(?<=Client Version: v)(\d\.\d\d)")
+  local KUBEAPI_VERSION
+  KUBEAPI_VERSION=$(kubectl version --short 2>/dev/null | grep -oP "(?<=Server Version: v)(\d\.\d\d)")
+
+  local STATUS=$?
+  if [[ $STATUS -gt 0 ]]; then
+    ERROR "Failed to get Server Kubernetes API version. Check cluster connectivity or/and kubeconfig file"
+  fi
+
+  if [[ "${VERSION_KUBERNETES[*]}" =~ ${KUBECTL_VERSION} ]]; then
+    INFO "Client kubectl version: ${KUBECTL_VERSION} is supported."
+  else
+    ERROR "Client kubectl version: ${KUBECTL_VERSION} is not supported. Supported versions are: ${VERSION_KUBERNETES[*]}"
+  fi
+  if [[ "${VERSION_KUBERNETES[*]}" =~ ${KUBEAPI_VERSION} ]]; then
+    INFO "Server kubernetes API version: ${KUBEAPI_VERSION} is supported."
+  else
+    ERROR "Server kubernetes API version: ${KUBEAPI_VERSION} is not supported. Supported versions are: ${VERSION_KUBERNETES[*]}"
+  fi
+  if [[ "${KUBECTL_VERSION}" != "${KUBEAPI_VERSION}" ]]; then
+    WARN "Client/Server versions mismatch"
+  fi
+}
+
+function checkDockerVersion() {
+  if ! command -v docker &> /dev/null; then
+    ERROR "Docker is not installed. Please install Docker first"
+  fi
+  local DOCKER_VERSION
+  DOCKER_VERSION=$(docker --version | awk '{print $3}' | cut -d ',' -f1)
+  checkToolVersion "Docker" "${DOCKER_VERSION}" "${VERSION_DOCKER}"
+}
+
+function checkUnzipVersion() {
+  if ! command -v unzip &> /dev/null; then
+    ERROR "UnZip is not installed. Please install UnZip first"
+  fi
+  local UNZIP_VERSION
+  UNZIP_VERSION=$(unzip -v | head -n1 | awk '{print $2}')
+  checkToolVersion "UnZip" "${UNZIP_VERSION}" "${VERSION_UNZIP}"
+}
+
+function checkShellVersion() {
+  local SHELL_TYPE
+  SHELL_TYPE=$(basename "$SHELL")
+  if [ "$SHELL_TYPE" = "bash" ]; then
+    local SHELL_VERSION
+    SHELL_VERSION=$(/usr/bin/env bash --version | head -n1 | awk '{print $4}' | grep -oP '\d+\.\d+\.\d+')
+    checkToolVersion "Bash" "${SHELL_VERSION}" "${VERSION_BASH}"
+  else
+    ERROR "Current shell type ${SHELL_TYPE} is not supported"
+  fi
+}
+
+function checkEORelease() {
+  local EO_SEMANTIC_VERSION
+  EO_SEMANTIC_VERSION=${EO_RELEASE_VERSION%-*}
+  checkToolVersion "EO Helmfile" "${EO_SEMANTIC_VERSION}" "${VERSION_EO}"
+}
+
+function checkPrerequisities() {
+  INFO "Checking pre-requisites"
+  checkWorkdirPermissions
+  checkKubeVersion
+  checkDockerVersion
+  checkUnzipVersion
+  checkShellVersion
+  checkEORelease
+}
+
+function createSecAccessMgmtCredsSecret() {
+  INFO "Checking if \"eric-sec-access-mgmt-creds\" secret exists"
+  if ! kubectl -n "$NAMESPACE" get secret 2>&1 | grep -q "eric-sec-access-mgmt-creds"; then
+    INFO "Creating \"eric-sec-access-mgmt-creds\" secret"
+    [[ $(kubectl create secret generic eric-sec-access-mgmt-creds --from-literal=kcadminid=admin \
+    --from-literal=kcpasswd="$PASSWORD" --from-literal=pguserid=admin \
+    --from-literal=pgpasswd=test-pw --namespace "$NAMESPACE") ]] && ERROR "Creation of \"eric-sec-access-mgmt-creds\" secret failed!"
+  else
+    INFO "\"eric-sec-access-mgmt-creds\" secret already created"
+  fi
+}
+
+function createPostgressDbSecret() {
+  INFO "Checking if \"eric-eo-database-pg-secret\" secret exists"
+  if ! kubectl -n "$NAMESPACE" get secret 2>&1 | grep -q "eric-eo-database-pg-secret"; then
+    INFO "Creating \"eric-eo-database-pg-secret\" secret"
+    [[ $(kubectl create secret generic eric-eo-database-pg-secret --from-literal=custom-user=eo_user \
+         --from-literal=custom-pwd=postgres \
+         --from-literal=super-user=postgres --from-literal=super-pwd=postgres --from-literal=metrics-user=exporter \
+         --from-literal=metrics-pwd=postgres --from-literal=replica-user=replica --from-literal=replica-pwd=postgres \
+         --namespace "$NAMESPACE") ]] && ERROR "Creation of \"eric-eo-database-pg-secret\" secret failed!"
+  else
+    INFO "\"eric-eo-database-pg-secret\" secret already created"
+  fi
+}
+
+function createDockerRegSecret() {
+  INFO "Checking if \"container-registry-users-secret\" secret exists"
+  if ! kubectl -n "$NAMESPACE" get secret 2>&1 | grep -q "container-registry-users-secret"; then
+    INFO "Generating secret file by htpasswd"
+    htpasswd -cBb htpasswd "$DOCKER_REGISTRY_USER" "$DOCKER_REGISTRY_PASS"
+    INFO "Creating \"container-registry-users-secret\" secret"
+    [[ $(kubectl create secret generic container-registry-users-secret \
+         --from-file=htpasswd=./htpasswd --namespace "$NAMESPACE") ]] && ERROR "Creation of \"container-registry-users-secret\" secret failed!"
+    INFO "Removing htpasswd temporary file"
+    rm -f ./htpasswd
+  else
+    INFO "\"container-registry-users-secret\" secret already created"
+  fi
+}
+
+function createDockerRegCredentialsSecret() {
+  INFO "Checking if \"container-credentials\" secret exists"
+  if ! kubectl -n "$NAMESPACE" get secret 2>&1 | grep -q "container-credentials"; then
+    INFO "Creating \"container-credentials\" secret"
+    [[ $(kubectl create secret generic container-credentials --from-literal=url="$HOST_DOC_REG" \
+         --from-literal=userid="$DOCKER_REGISTRY_USER" --from-literal=userpasswd="$DOCKER_REGISTRY_PASS" \
+         --namespace "$NAMESPACE") ]] && ERROR "Creation of \"container-credentials\" secret failed!"
+  else
+    INFO "\"container-credentials\" secret already created"
+  fi
+}
+
+function createNamespace() {
+  INFO "Checking if namespace \"$NAMESPACE\" exists"
+  if ! kubectl get namespaces "$NAMESPACE" &> /dev/null; then
+    INFO "Creating namespace \"$NAMESPACE\""
+    [[ $(kubectl create namespace "$NAMESPACE") ]] && ERROR "Creation of namespace \"$NAMESPACE\" failed!"
+  else
+    INFO "Namespace already created"
+  fi
+}
+
+function spitSiteValuesFile() {
+  INFO "Creating site_values_$EO_RELEASE_VERSION.yaml yaml file"
+  echo "$values" > "$WORKING_DIR"/site_values_"$EO_RELEASE_VERSION".yaml
+}
+
+function preparingDeploymentManager() {
+  INFO "Checking if Deployment Manager image already exist in local docker"
+  if ! docker images | grep -q "$DEPLOYMENT_MANAGER_VERSION"; then
+    INFO "Extracting Deployment Manager image"
+    unzip -jnq deployment-manager-"$DEPLOYMENT_MANAGER_VERSION".zip 'deployment-manager.tar'
+    INFO "Pushing Deployment Manager image to local docker"
+    docker load --input deployment-manager.tar
+    INFO "Cleaning extracted file"
+    [[ -f "deployment-manager.tar" ]] && rm -rf deployment-manager.tar
+  else
+    INFO "Deployment Manager image is already exists in local docker"
+  fi
+}
+
+function initWorkdir() {
+  INFO "Initializing workdir, using \"deployment-manager:$DEPLOYMENT_MANAGER_VERSION\" in directory \"$PWD\""
+  DM_CMD="docker run --rm -i -u $(id -u):$(id -g) -v ${PWD}:/workdir deployment-manager:$DEPLOYMENT_MANAGER_VERSION init"
+  INFO "Command will be run: $DM_CMD"
+  [[ $(bash -c "$DM_CMD") ]] && ERROR "Initialization of Deployment Manager workdir failed! Please check Deployment Manager logs in logs/"
+  return 0
+}
+
+function prepareForDeploy() {
+  INFO "Filling requirements for deployment"
+  return 0
+  checkPrerequisities
+  sourceConfig
+  renderValuesYaml
+  preparingDeploymentManager
+  initWorkdir
+  spitSiteValuesFile
+  createNamespace
+  createSecAccessMgmtCredsSecret
+  createDockerRegSecret
+  createDockerRegCredentialsSecret
+  createPostgressDbSecret
+}
+
+function deploymentManagerCommmands() {
+  local DEPLOYMENT_MANAGER_COMMAND
+  local DEPLOYMENT_MANAGER_RUN_CMD="nope"
+  INFO "Checking which command to run"
+  if [[ "$COMMAND" == 'install' ]]; then
+    INFO "Running install command"
+    DEPLOYMENT_MANAGER_COMMAND="$COMMAND"
+  elif [[ "$COMMAND" == 'upgrade' ]]; then
+    INFO "Running upgrade command"
+    DEPLOYMENT_MANAGER_COMMAND="$COMMAND"
+  else
+    ERROR "Unknown parameter passed to Deployment manager, available options in [install, upgrade]" || error_exit
+  fi
+  DEPLOYMENT_MANAGER_RUN_CMD="docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/workdir -v /etc/hosts:/etc/hosts \
+    deployment-manager:$DEPLOYMENT_MANAGER_VERSION \
+    $DEPLOYMENT_MANAGER_COMMAND \
+    --namespace $NAMESPACE \
+    --crd-namespace $CRD_NAMESPACE \
+    --helm-timeout 3600 -v 3"
+  INFO "Command will be run: $DEPLOYMENT_MANAGER_RUN_CMD"
+  [[ $(bash -c "$DEPLOYMENT_MANAGER_RUN_CMD") ]] && ERROR "Failed! Please check Deployment Manager logs in logs/"
+}
+
+function cleanUp() {
+  INFO "Cleaning up namespace \"$NAMESPACE\" and kubernetes resources"
+  INFO "Checking if namespace \"$NAMESPACE\" exists"
+  if kubectl get namespaces "$NAMESPACE" &> /dev/null; then
+    INFO "Deleting namespace \"$NAMESPACE\""
+    kubectl delete ns "$NAMESPACE"
+  else
+    INFO "Namespace \"$NAMESPACE\" not exists"
+  fi
+  INFO "Checking if ClusterRoles and ClusterRoleBindings exists"
+  if kubectl get clusterrole,clusterrolebinding -o name | grep "$NAMESPACE"; then
+    for each in $(kubectl get clusterrole,clusterrolebinding -o name | grep "$NAMESPACE"); do
+      INFO "Deleting \"$each\""
+      kubectl delete "$each"
+    done
+  else
+    INFO "ClusterRoles and ClusterRoleBindings not exists"
+  fi
+  return 0
+}
+
+function checkForCommands() {
+  if [[ "$COMMAND" == 'install' ]] & [[ "$COMMAND" == 'upgrade' ]]; then deploymentManagerCommmands;
+  elif [[ "$COMMAND" == 'cleanup' ]]; then cleanUp;
+  elif [[ "$COMMAND" == 'prepare' ]]; then prepareForDeploy;
+  elif [[ "$COMMAND" == 'pre-check' ]]; then checkPrerequisities;
+  fi
+}
+
+function showHelp() {
+  printf """
+%s (%s CLI) installation and upgrade tool, version 1.0.0
+
+Usage:
+  bash %s [command]
+
+Commands:
+  pre-check                   pre-check environment requirements
+  prepare                     complete pre-installation steps
+  install                     run %s install procedure
+  upgrade                     run %s upgrade procedure
+  cleanup                     cleanup cluster from %s namespace, helm releases, secrets etc.
+
+Flags:
+  -h, --help                  show this help
+  -V, --version               show Release Notes of %s CLI
+      --debug                 enable verbose output
+
+Run \"bash eo [command] --help\" for more information on a command.
+To get more help with %s (EO CLI) logic, check out \"Cloud Native Installation/Upgrade Instructions\" Guides in CPI.
+""" "$SCRIPT_NAME" "$PRODUCT" "$SCRIPT_NAME" "$PRODUCT" "$PRODUCT" "$PRODUCT" "$PRODUCT" "$SCRIPT_NAME"
+  exit 1
+}
+
+function showReleaseNotes() {
+  printf """
+This is stub of Release Notes for %s (EO CLI) tool version 1.0.0 and supports %s helmfile 2.27.0-118 and next forward
+""" "$SCRIPT_NAME" "$PRODUCT"
+  exit 1
+}
+
+function showHelpForPrecheck() {
+  printf """
+Commands for pre-check.
+
+Usage:
+  bash %s pre-check
+
+Run \"bash eo pre-check --help\" for usage.
+""" "$SCRIPT_NAME"
+  exit 1
+}
+
+function showHelpForPrepare() {
+  printf """
+Commands for prepare.
+
+Usage:
+  bash %s prepare [flags]
+
+Flags:
+  -n, --namespace string      namespace where %s is deployed
+
+Run \"bash eo prepare --help\" for usage.
+""" "$SCRIPT_NAME" "$PRODUCT"
+  exit 1
+}
+
+function showHelpForDeploymentManagerCommands() {
+  printf """
+Commands for installation/upgrade.
+
+Usage:
+  bash %s [install upgrade] [flags]
+
+Flags:
+  -n, --namespace string      namespace where %s is deployed
+  -e, --eo-version string     release version of %s to use for deployment
+  -d, --dm-version string     version of Deployment Manager to use for %s operations (optional)
+      --config-path string    full path to \"$SCRIPT_NAME.conf\" configuration file for site values spitting (optional)
+      --dry-run               run $SCRIPT_NAME in Dry Run mode to check what commands will be executed
+""" "$SCRIPT_NAME" "$PRODUCT" "$PRODUCT"
+  exit 1
+}
+
+function showHelpForCleanup() {
+  printf """
+Commands for cleanup.
+
+Usage:
+  bash %s cleanup [flags]
+
+Flags:
+  -n, --namespace string      namespace where %s is deployed
+
+Run \"bash eo cleanup --help\" for usage.
+""" "$SCRIPT_NAME" "$PRODUCT"
+  exit 1
+}
+
+while true; do
+  case "$COMMAND" in
+    install | upgrade)
+      showHelpForDeploymentManagerCommands;;
+    cleanup)
+      shift 1
+      if ! TEMP=$(getopt -o n:,h,* -l namespace:,help,* -q -- "$@"); then
+        echo "unknown option: $1"
+        showHelpForCleanup
+      fi
+      eval set -- "$TEMP"
+      while true; do
+        case "$1" in
+          -n | --namespace)
+            NAMESPACE="$2"
+            shift 3
+            if [[ -z $1 ]]; then cleanUp; exit 123; fi;;
+          -h | --help)
+            showHelpForCleanup;;
+          *)
+            echo "Error: unknown command \"$1\" for \"cleanup\""
+            echo "Run \"bash eo cleanup --help\" for usage."
+            exit 1;;
+        esac
+      done;;
+    prepare)
+      shift 1
+      if ! TEMP=$(getopt -o n:,h,* -l namespace:,help,* -q -- "$@"); then
+        echo "unknown option: $1"
+        showHelpForPrepare
+      fi
+      eval set -- "$TEMP"
+      while true; do
+        case "$1" in
+          -n | --namespace)
+            NAMESPACE="$2"
+            shift 3
+            if [[ -z $1 ]]; then prepareForDeploy; exit 123; fi;;
+          -h | --help)
+            showHelpForPrepare
+            shift 1;;
+          *)
+            echo "Error: unknown command \"$1\" for \"prepare\""
+            echo "Run \"bash eo prepare --help\" for usage."
+            exit 1;;
+        esac
+      done;;
+    pre-check)
+      shift 1
+      if ! TEMP=$(getopt -o h,* -l help,* -q -- "$@"); then
+        echo "unknown option: $1"
+        showHelpForPrecheck
+      fi
+      eval set -- "$TEMP"
+      while true; do
+        case "$1" in
+          -h | --help)
+            showHelpForPrecheck;;
+          *)
+            if [[ $TEMP == ' --' ]]; then checkPrerequisities;
+            else
+              echo "Error: unknown command \"$2\" for \"pre-check\""
+              echo "Run \"bash eo pre-check --help\" for usage."
+            fi
+            exit 1;;
+        esac
+      done;;
+    *)
+      break;;
+  esac
+done
+
+#eval set -- "$TEMP"
+#while true; do
+#  case "$1" in
+#  -n | --namespace)
+#    NAMESPACE="$2"
+#    shift 2
+#    ;;
+#  -e | --eo-version)
+#    EO_RELEASE_VERSION="$2"
+#    shift 2
+#    ;;
+#  -d | --dm-version)
+#    DEPLOYMENT_MANAGER_VERSION="$2"
+#    shift 2
+#    ;;
+#  --config-path)
+#    PATH_TO_CONFIG="$2"
+#    shift 2
+#    ;;
+#  --dry-run)
+#    IS_DRY_RUN="true"
+#    shift 2
+#    ;;
+#  -h | --help)
+#    showHelp
+#    shift 1
+#    ;;
+#  -v | --version)
+#    showReleaseNotes
+#    shift 1
+#    ;;
+#  *)
+#    break
+#    ;;
+#  esac
+#done

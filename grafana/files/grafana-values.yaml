@@ -1,0 +1,46 @@
+image:
+  repository: armdocker.rnd.ericsson.se/proj-am/grafana/grafana
+  tag: 8.0.5
+  sha: ""
+  pullPolicy: IfNotPresent
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 2Gi
+
+initChownData:
+  enabled: true
+  image:
+    repository: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/busybox
+    tag: "1.32.0"
+    sha: ""
+    pullPolicy: IfNotPresent
+
+# Administrator credentials when not using an existing secret (see below)
+adminUser: admin
+adminPassword: admin123
+
+# Use an existing secret for the admin user.
+admin:
+  existingSecret: ""
+  userKey: admin-user
+  passwordKey: admin-password
+
+plugins: []
+  # - digrich-bubblechart-panel
+# - grafana-clock-panel
+
+## Configure grafana datasources
+## ref: http://docs.grafana.org/administration/provisioning/#datasources
+##
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server:80
+        access: proxy
+        isDefault: true

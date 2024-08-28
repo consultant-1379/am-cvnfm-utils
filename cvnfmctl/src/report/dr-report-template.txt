@@ -1,0 +1,31 @@
+HA Design Rules report
+
+Current releases:
+{{- range $releaseName, $version := .Releases }}
+  - {{ printf "name: %s" $releaseName }}
+    {{ printf "version: %s" $version }}
+{{- end }}
+
+Deployed resources (custom resources excluded):
+{{ if .KubeControllers.Deployments }}  Deployments:
+  {{- range $value := .KubeControllers.Deployments }}
+    - {{ printf "serviceName: %s" $value.Name }}
+  {{- end }}
+{{- end }}
+{{ if .KubeControllers.StatefulSets }}  StatefulSets:
+  {{- range $value := .KubeControllers.StatefulSets }}
+    - {{ printf "serviceName: %s" $value.Name }}
+  {{- end }}
+{{- end }}
+{{ if .KubeControllers.DaemonSets }}  DaemonSets:
+  {{- range $value := .KubeControllers.DaemonSets }}
+    - {{ printf "serviceName: %s" $value.Name }}
+  {{- end }}
+{{- end }}
+
+{{ if .Strategy }} Strategy:
+  {{- range $key, $value := .Strategy }}
+    - {{ printf "serviceName: %s" $key }}
+      {{ printf "rollingUpdate: %s" $value }}
+  {{- end }}
+{{- end }}

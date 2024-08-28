@@ -1,0 +1,614 @@
+pipeline {
+    agent {
+        node {
+            label 'GR'
+        }
+    }
+
+    parameters {
+        string(name: 'HOST_VNFM', defaultValue: 'vnfm.ccd-c3b002-iccr.athtem.eei.ericsson.se', description: 'evnfm base url')
+        string(name: 'USER', defaultValue: 'vnfm', description: 'evnfm default user')
+        string(name: 'PASSWORD', defaultValue: 'ciTesting123!', description: 'evnfm default password')
+        string(name: 'REFSPEC', defaultValue: '', description: 'gerrit CR refspec to checkout')
+        string(name: 'packageId1', defaultValue: '1')
+        string(name: 'packageId2', defaultValue: '2')
+        string(name: 'packageId3', defaultValue: '3')
+        string(name: 'packageId4', defaultValue: '4')
+        string(name: 'packageId5', defaultValue: '5')
+        string(name: 'packageId6', defaultValue: '6')
+        string(name: 'packageId7', defaultValue: '7')
+        string(name: 'packageId8', defaultValue: '8')
+        string(name: 'packageId9', defaultValue: '9')
+        string(name: 'packageId10', defaultValue: '10')
+        string(name: 'packageId11', defaultValue: '11')
+        string(name: 'packageId12', defaultValue: '12')
+        string(name: 'packageId13', defaultValue: '13')
+        string(name: 'packageId14', defaultValue: '14')
+        string(name: 'packageId15', defaultValue: '15')
+        string(name: 'packageId16', defaultValue: '16')
+        string(name: 'packageId17', defaultValue: '17')
+        string(name: 'packageId18', defaultValue: '18')
+        string(name: 'packageId19', defaultValue: '19')
+        string(name: 'packageId20', defaultValue: '20')
+        string(name: 'packageId21', defaultValue: '21')
+        string(name: 'packageId22', defaultValue: '22')
+        string(name: 'packageId23', defaultValue: '23')
+        string(name: 'packageId24', defaultValue: '24')
+        string(name: 'packageId25', defaultValue: '25')
+        string(name: 'packageId26', defaultValue: '26')
+        string(name: 'packageId27', defaultValue: '27')
+        string(name: 'packageId28', defaultValue: '28')
+    }
+
+    stages {
+        stage ('Retrieve Pipeline') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: 'FETCH_HEAD']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [[$class: 'CleanBeforeCheckout'],
+                                [$class: 'SubmoduleOption',
+                                disableSubmodules: false,
+                                parentCredentials: false,
+                                recursiveSubmodules: true,
+                                reference: '',
+                                trackingSubmodules: true]],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[refspec: '${REFSPEC}', url: '${GERRIT_MIRROR}/OSS/com.ericsson.orchestration.mgmt/am-cvnfm-utils']]])
+            }
+        }
+
+        stage ('Onboard first pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId1 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package1\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId2 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package2\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId1 = pkgId1
+                    env.packageId2 = pkgId2
+                    response1 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId1'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/eric-ccdm-CXP9037622_1.6.15.csar\"'", returnStdout: true).trim()
+                    response2 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId2'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/Ericsson.CCRC.CXP9037716_1_12_2+2.csar\"'", returnStdout: true).trim()
+                    def onboarded1 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId1' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded1 != 'ONBOARDED') {
+                        onboarded1 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId1' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded2 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId2' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded2 != 'ONBOARDED') {
+                        onboarded2 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId2' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard second pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId3 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package3\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId4 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package4\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId3 = pkgId3
+                    env.packageId4 = pkgId4
+                    response3 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId3'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R55A1245.csar\"'", returnStdout: true).trim()
+                    response4 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId4'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R55A1417.csar\"'", returnStdout: true).trim()
+                    def onboarded3 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId3' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded3 != 'ONBOARDED') {
+                        onboarded3 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId3' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded4 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId4' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded4 != 'ONBOARDED') {
+                        onboarded4 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId4' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard fifth package') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId5 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package5\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId5 = pkgId5
+                    response5 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId5'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/enm-installation-package-1.41.0-3.csar\"'", returnStdout: true).trim()
+                    def onboarded5 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId5' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded5 != 'ONBOARDED') {
+                        onboarded5 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId5' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard sixth package') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId6 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package6\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId6 = pkgId6
+                    response6 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId6'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/enm-installation-package-1.40.0-41.csar\"'", returnStdout: true).trim()
+                    def onboarded6 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId6' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded6 != 'ONBOARDED') {
+                        onboarded6 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId6' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard seventh package') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId7 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package7\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId7 = pkgId7
+                    response7 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId7'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/enm-installation-package-1.41.0-9.csar\"'", returnStdout: true).trim()
+                    def onboarded7 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId7' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded7 != 'ONBOARDED') {
+                        onboarded7 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId7' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard third pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId8 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package8\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId9 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package9\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId8 = pkgId8
+                    env.packageId9 = pkgId9
+                    response8 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId8'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/Ericsson.CCES.CXP9037720_1_11_2+11.csar\"'", returnStdout: true).trim()
+                    response9 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId9'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/Ericsson.CCPC.CXP9037858_1_11_1.csar\"'", returnStdout: true).trim()
+                    def onboarded8 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId8' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded8 != 'ONBOARDED') {
+                        onboarded8 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId8' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded9 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId9' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded9 != 'ONBOARDED') {
+                        onboarded9 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId9' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+
+        stage ('Onboard forth pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId10 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package10\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId11 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package11\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId10 = pkgId10
+                    env.packageId11 = pkgId11
+                    response10 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId10'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R55A1549.csar\"'", returnStdout: true).trim()
+                    response11 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId11'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R55A1569.csar\"'", returnStdout: true).trim()
+                    def onboarded10 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId10' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded10 != 'ONBOARDED') {
+                        onboarded10 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId10' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded11 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId11' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded11 != 'ONBOARDED') {
+                        onboarded11 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId11' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard twelfth package') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId12 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package12\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId12 = pkgId12
+                    response12 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId12'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/enm-installation-package-1.41.0-19.csar\"'", returnStdout: true).trim()
+                    def onboarded12 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId12' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded12 != 'ONBOARDED') {
+                        onboarded12 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId12' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard thirteenth package') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId13 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package13\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId13 = pkgId13
+                    response13 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId13'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/enm-installation-package-1.41.0-10.csar\"'", returnStdout: true).trim()
+                    def onboarded13 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId13' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded13 != 'ONBOARDED') {
+                        onboarded13 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId13' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard fourteenth package') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId14 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package14\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId14 = pkgId14
+                    response14 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId14'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/enm-installation-package-1.40.0-20.csar\"'", returnStdout: true).trim()
+                    def onboarded14 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId14' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded14 != 'ONBOARDED') {
+                        onboarded14 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId14' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard fifth pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId15 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package15\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId16 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package16\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId15 = pkgId15
+                    env.packageId16 = pkgId16
+                    response15 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId15'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCG_CXP9037448_1-R56A253.csar\"'", returnStdout: true).trim()
+                    response16 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId16'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R58A13.csar\"'", returnStdout: true).trim()
+                    def onboarded15 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId15' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded15 != 'ONBOARDED') {
+                        onboarded15 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId15' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded16 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId16' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded16 != 'ONBOARDED') {
+                        onboarded16 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId16' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard sixth pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId17 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package17\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId18 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package18\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId17 = pkgId17
+                    env.packageId18 = pkgId18
+                    response17 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId17'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R58A251.csar\"'", returnStdout: true).trim()
+                    response18 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId18'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R58A215.csar\"'", returnStdout: true).trim()
+                    def onboarded17 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId17' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded17 != 'ONBOARDED') {
+                        onboarded17 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId17' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded18 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId18' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded18 != 'ONBOARDED') {
+                        onboarded18 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId18' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard seventh pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId19 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package19\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId20 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package20\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId19 = pkgId19
+                    env.packageId20 = pkgId20
+                    response19 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId19'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R55A1585.csar\"'", returnStdout: true).trim()
+                    response20 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId20'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R55A1593.csar\"'", returnStdout: true).trim()
+                    def onboarded19 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId19' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded19 != 'ONBOARDED') {
+                        onboarded19 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId19' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded20 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId20' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded20 != 'ONBOARDED') {
+                        onboarded20 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId20' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard eighth pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId21 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package21\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId22 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package22\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId21 = pkgId21
+                    env.packageId21 = pkgId22
+                    response21 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId21'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R55A1594.csar\"'", returnStdout: true).trim()
+                    response22 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId22'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/PCC_CXP9037447_1-R55A1607.csar\"'", returnStdout: true).trim()
+                    def onboarded21 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId21' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded21 != 'ONBOARDED') {
+                        onboarded21 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId21' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded22 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId22' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded22 != 'ONBOARDED') {
+                        onboarded22 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId22' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard ninth pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId23 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package23\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId24 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package24\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId23 = pkgId23
+                    env.packageId24 = pkgId24
+                    response23 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId23'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/eric-ccdm-CXP9037622_1.7.22.csar\"'", returnStdout: true).trim()
+                    response24 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId24'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/eric-ccdm-CXP9037622_1.9.26.csar\"'", returnStdout: true).trim()
+                    def onboarded23 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId23' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded23 != 'ONBOARDED') {
+                        onboarded23 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId23' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded24 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId24' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded24 != 'ONBOARDED') {
+                        onboarded24 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId24' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard tenth pair of packages') {
+            steps {
+                script {
+                    token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                        -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                    def pkgId25 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package25\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    def pkgId26 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                        -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                        -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package26\"}}') \
+                        | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    env.packageId25 = pkgId25
+                    env.packageId26 = pkgId26
+                    response25 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId25'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/eric-sc-1.10.1+45.csar\"'", returnStdout: true).trim()
+                    response26 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId26'/package_content' \
+                        -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                        --form 'file=@\"/mnt/shared_dir/eric-sc-1.11.0+18.csar\"'", returnStdout: true).trim()
+                    def onboarded25 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId25' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded25 != 'ONBOARDED') {
+                        onboarded25 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId25' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                    def onboarded26 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId26' \
+                        -H 'Cookie: JSESSIONID='$token'') \
+                        | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                    while (onboarded26 != 'ONBOARDED') {
+                        onboarded26 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId26' \
+                        -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                }
+            }
+        }
+
+        stage ('Onboard eleven pair of packages') {
+                    steps {
+                        script {
+                            token = sh(script: "curl -skLX POST 'https://${HOST_VNFM}/auth/v1' -H 'Content-Type: application/json' \
+                                -H 'X-login: ${USER}' -H 'X-password: ${PASSWORD}'", returnStdout: true).trim()
+                            def pkgId27 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                                -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                                -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package25\"}}') \
+                                | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                            def pkgId28 = sh(script: "(curl -skLX POST 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages' \
+                                -H 'Content-Type: application/json' -H 'Cookie: JSESSIONID='$token'' \
+                                -d '{\"userDefinedData\": {\"onboarding.timeout\": \"5000\", \"description\": \"New package26\"}}') \
+                                | grep -o '\"id\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                            env.packageId27 = pkgId27
+                            env.packageId28 = pkgId28
+                            response27 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId27'/package_content' \
+                                -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                                --form 'file=@\"/mnt/shared_dir/enm-installation-package-1.41.0-25.csar\"'", returnStdout: true).trim()
+                            response28 = sh(script: "curl -skLX PUT 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/'$env.packageId28'/package_content' \
+                                -H 'Content-Type: multipart/form-data' -H 'Cookie: JSESSIONID='$token'' \
+                                --form 'file=@\"/mnt/shared_dir/enm-installation-package-1.42.0-11.csar\"'", returnStdout: true).trim()
+                            def onboarded27 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId27' \
+                                -H 'Cookie: JSESSIONID='$token'') \
+                                | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                            while (onboarded27 != 'ONBOARDED') {
+                                onboarded27 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId27' \
+                                -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                            def onboarded28 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId28' \
+                                -H 'Cookie: JSESSIONID='$token'') \
+                                | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()
+                            while (onboarded28 != 'ONBOARDED') {
+                                onboarded26 = sh(script: "(curl -skLX GET 'https://${HOST_VNFM}/vnfm/onboarding/api/vnfpkgm/v1/vnf_packages/$env.packageId28' \
+                                -H 'Cookie: JSESSIONID='$token'') | grep -o '\"onboardingState\":\"[^\"]*' | grep -o '[^\"]*\$'", returnStdout: true).trim()}
+                        }
+                    }
+                }
+    }
+
+    post {
+        always {
+            deleteDir()
+        }
+    }
+}

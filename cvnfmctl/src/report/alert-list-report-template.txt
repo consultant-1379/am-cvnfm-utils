@@ -1,0 +1,16 @@
+Alert list:{{ if . }}
+{{- range $serviceName, $rules := . }}
+  - {{ printf "serviceName: %s" $serviceName }}
+    {{ print "rules:" }}
+  {{- with $rules }}
+  {{- range $rule, $attributes := . }}
+      - {{ printf "alertName: %s" $attributes.AlertName }}
+        {{ printf "severity: %s" $attributes.Labels.severity }}
+        {{ printf "faultyResource: %s" $attributes.Labels.faultyResource }}
+        {{ printf "summary: %s" $attributes.Annotations.summary }}
+        {{ printf "description: %s" $attributes.FaultMapping.DefaultDescription }}
+        {{ printf "code: %d" $attributes.FaultMapping.Code }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+{{- end }}

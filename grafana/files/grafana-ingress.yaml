@@ -1,0 +1,28 @@
+{{/*The apiVersion check can be removed when only k8s >=1.19 is supported*/}}
+{{- $isApiNetworkingV1 := .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+{{- if $isApiNetworkingV1 }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+apiVersion: networking.k8s.io/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: grafana-ingress
+spec:
+  rules:
+  - host: grafana.<signum>.<target-cluster>.rnd.gic.ericsson.se
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        {{- if $isApiNetworkingV1 }}
+        backend:
+          service:
+            name: evnfm-grafana
+            port:
+              number: 3000
+        {{- else }}
+        backend:
+          serviceName: evnfm-grafana
+          servicePort: 3000
+        {{- end }}

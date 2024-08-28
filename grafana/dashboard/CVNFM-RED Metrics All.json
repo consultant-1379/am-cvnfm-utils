@@ -1,0 +1,5911 @@
+{
+	"annotations": {
+		"list": [
+			{
+				"builtIn": 1,
+				"datasource": {
+					"type": "datasource",
+					"uid": "grafana"
+				},
+				"enable": true,
+				"hide": true,
+				"iconColor": "rgba(0, 211, 255, 1)",
+				"name": "Annotations & Alerts",
+				"target": {
+					"limit": 100,
+					"matchAny": false,
+					"tags": [],
+					"type": "dashboard"
+				},
+				"type": "dashboard"
+			}
+		]
+	},
+	"editable": true,
+	"fiscalYearStartMonth": 0,
+	"graphTooltip": 0,
+	"id": 30,
+	"iteration": 1701289133609,
+	"links": [
+		{
+			"icon": "cloud",
+			"includeVars": true,
+			"keepTime": true,
+			"tags": [],
+			"targetBlank": true,
+			"title": "PDF Report",
+			"tooltip": "Report can take few minutes",
+			"type": "link",
+			"url": "http://reporter.haber002-iccr.ews.gic.ericsson.se/api/v5/report/red"
+		}
+	],
+	"liveNow": false,
+	"panels": [
+		{
+			"collapsed": true,
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 0
+			},
+			"id": 84,
+			"panels": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineStyle": {
+									"fill": "solid"
+								},
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": false,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							}
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 17,
+						"w": 24,
+						"x": 0,
+						"y": 1
+					},
+					"id": 86,
+					"options": {
+						"legend": {
+							"calcs": [
+								"last"
+							],
+							"displayMode": "table",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"expr": "sum(pg_stat_activity_count{app=\"application-manager-postgres\", datname=\"orchestrator\"})",
+							"hide": false,
+							"legendFormat": "Orchestrator",
+							"range": true,
+							"refId": "A"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "sum(pg_stat_activity_count{app=\"application-manager-postgres\", datname=\"onboarding\"})",
+							"hide": false,
+							"legendFormat": "Onboarding",
+							"range": true,
+							"refId": "B"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"expr": "sum(pg_stat_activity_count{app=\"application-manager-postgres\", datname=\"camunda\"})",
+							"hide": false,
+							"legendFormat": "Camunda",
+							"range": true,
+							"refId": "C"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"expr": "sum(pg_stat_activity_count{app=\"application-manager-postgres\", datname=\"postgres\"})",
+							"hide": false,
+							"legendFormat": "Postgres",
+							"range": true,
+							"refId": "D"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"expr": "sum(pg_stat_activity_count{app=\"application-manager-postgres\", datname=\"toscao\"})",
+							"hide": false,
+							"legendFormat": "TOSCAO",
+							"range": true,
+							"refId": "E"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"expr": "sum(pg_stat_activity_count{app=\"application-manager-postgres\", datname=\"template0\"})",
+							"hide": false,
+							"legendFormat": "template0",
+							"range": true,
+							"refId": "F"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"expr": "sum(pg_stat_activity_count{app=\"application-manager-postgres\", datname=\"template1\"})",
+							"hide": false,
+							"legendFormat": "template1",
+							"range": true,
+							"refId": "G"
+						}
+					],
+					"title": "Connections pools",
+					"type": "timeseries"
+				}
+			],
+			"title": "Application Manager PG DB",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"datasource": {
+				"type": "prometheus",
+				"uid": "prometheus"
+			},
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 1
+			},
+			"id": 14,
+			"panels": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineStyle": {
+									"fill": "solid"
+								},
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 10,
+						"w": 12,
+						"x": 0,
+						"y": 2
+					},
+					"id": 2,
+					"options": {
+						"legend": {
+							"calcs": [
+								"min",
+								"max",
+								"lastNotNull"
+							],
+							"displayMode": "table",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "hikaricp_connections_active{app=\"eric-am-common-wfs\", job=\"eric-am-common-wfs\"}",
+							"interval": "",
+							"legendFormat": "Active connections ({{pool}})",
+							"range": true,
+							"refId": "A"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "hikaricp_connections_active{app=\"eric-am-common-wfs\", job=\"eric-am-common-wfs\"} + hikaricp_connections_idle{app=\"eric-am-common-wfs\", job=\"eric-am-common-wfs\"}",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "All connections ({{pool}})",
+							"range": true,
+							"refId": "B"
+						}
+					],
+					"title": "Connection Pool Usage (eric-am-common-wfs)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 10,
+						"w": 12,
+						"x": 12,
+						"y": 2
+					},
+					"id": 77,
+					"options": {
+						"legend": {
+							"calcs": [
+								"min",
+								"max",
+								"lastNotNull"
+							],
+							"displayMode": "table",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "rate(hikaricp_connections_usage_seconds_sum{app=\"eric-am-common-wfs\", job=\"eric-am-common-wfs\"}[1m])",
+							"interval": "",
+							"legendFormat": "{{instance}}",
+							"range": true,
+							"refId": "A"
+						}
+					],
+					"title": "Connection Pool Usage in seconds (eric-am-common-wfs)",
+					"type": "timeseries"
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"type": "prometheus",
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 12
+					},
+					"hiddenSeries": false,
+					"id": 4,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "prometheus"
+							},
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_sum{app=\"eric-am-common-wfs\", status!~\"5..\"}[2m]))/sum(rate(http_server_requests_seconds_count{app=\"eric-am-common-wfs\", status!~\"5..\"}[2m])) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-AVG",
+							"refId": "A"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "prometheus"
+							},
+							"exemplar": true,
+							"expr": "max(http_server_requests_seconds_max{app=\"eric-am-common-wfs\", status!~\"5..\"}) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-MAX",
+							"refId": "B"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "Average Response Latency per Second (eric-am-common-wfs)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 12
+					},
+					"id": 76,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "prometheus"
+							},
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-am-common-wfs\", uri!=\"/actuator/health\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Request Rate per Second (eric-am-common-wfs)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 20
+					},
+					"id": 10,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_count{app=\"eric-am-common-wfs\", uri!=\"/actuator/health\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"queryType": "randomWalk",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Request Rate (eric-am-common-wfs)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 20
+					},
+					"id": 75,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "prometheus"
+							},
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-am-common-wfs\", status=~\"5..\", uri!=\"/actuator/health\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Error Rate per Second (eric-am-common-wfs)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 2,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 28
+					},
+					"id": 8,
+					"interval": "",
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(1, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "100%",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs\"}[2m])) by (le)) or on() vector(0)",
+							"format": "time_series",
+							"interval": "",
+							"legendFormat": "99% ",
+							"refId": "B"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "95%",
+							"refId": "C"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.90, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "90%",
+							"refId": "D"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.75, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "75%",
+							"refId": "E"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "50%",
+							"refId": "F"
+						}
+					],
+					"title": "Response time of 50%, 75%, 90%, 95%, 99% & 100% of requests (eric-am-common-wfs)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 28
+					},
+					"id": 12,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_sum{app=\"eric-am-common-wfs\", uri!=\"/actuator/health\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Latency (eric-am-common-wfs)",
+					"type": "timeseries"
+				}
+			],
+			"title": "Workflow Service",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"datasource": {
+				"type": "prometheus",
+				"uid": "prometheus"
+			},
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 2
+			},
+			"id": 24,
+			"panels": [
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 2
+					},
+					"id": 35,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-am-common-wfs-ui\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Request Rate per Second (eric-am-common-wfs-ui)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 2
+					},
+					"id": 30,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-am-common-wfs-ui\", status=~\"5..\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Error Rate per Second (eric-am-common-wfs-ui)",
+					"type": "timeseries"
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 10
+					},
+					"hiddenSeries": false,
+					"id": 27,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_sum{app=\"eric-am-common-wfs-ui\", status!~\"5..\"}[2m]))/sum(rate(http_server_requests_seconds_count{app=\"eric-am-common-wfs-ui\", status!~\"5..\"}[2m])) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-AVG",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "max(http_server_requests_seconds_max{app=\"eric-am-common-wfs-ui\", status!~\"5..\"}) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-MAX",
+							"refId": "B"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "Average Response Latency per Second (eric-am-common-wfs-ui)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 2,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 10
+					},
+					"id": 28,
+					"interval": "",
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(1, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs-ui\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "100%",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs-ui\"}[2m])) by (le)) or on() vector(0)",
+							"format": "time_series",
+							"interval": "",
+							"legendFormat": "99% ",
+							"refId": "B"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs-ui\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "95%",
+							"refId": "C"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.90, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs-ui\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "90%",
+							"refId": "D"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.75, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs-ui\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "75%",
+							"refId": "E"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-common-wfs-ui\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "50%",
+							"refId": "F"
+						}
+					],
+					"title": "Response time of 50%, 75%, 90%, 95%, 99% & 100% of requests (eric-am-common-wfs-ui)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 18
+					},
+					"id": 37,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_count{app=\"eric-am-common-wfs-ui\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"queryType": "randomWalk",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Request Rate (eric-am-common-wfs-ui)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 18
+					},
+					"id": 26,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_sum{app=\"eric-am-common-wfs-ui\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Latency (eric-am-common-wfs-ui)",
+					"type": "timeseries"
+				}
+			],
+			"title": "EVNFM UI",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"datasource": {
+				"type": "prometheus",
+				"uid": "prometheus"
+			},
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 3
+			},
+			"id": 22,
+			"panels": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 4
+					},
+					"id": 29,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "prometheus"
+							},
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-am-onboarding-service\", uri!=\"/actuator/health\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m]))by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Request Rate per Second (eric-am-onboarding-service)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 4
+					},
+					"id": 38,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-am-onboarding-service\", status=~\"5..\", uri!=\"/actuator/health\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Error Rate per Second (eric-am-onboarding-service)",
+					"type": "timeseries"
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 12
+					},
+					"hiddenSeries": false,
+					"id": 36,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_sum{app=\"eric-am-onboarding-service\", status!~\"5..\"}[2m]))/sum(rate(http_server_requests_seconds_count{app=\"eric-am-onboarding-service\", status!~\"5..\"}[2m])) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-AVG",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "max(http_server_requests_seconds_max{app=\"eric-am-onboarding-service\", status!~\"5..\"}) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-MAX",
+							"refId": "B"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "Average Response Latency per Second (eric-am-onboarding-service)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 12
+					},
+					"hiddenSeries": false,
+					"id": 82,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "Mo1nElWIk"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "http_client_requests_seconds_max{app=\"eric-am-onboarding-service\", status!~\"5..\", status!~\"4..\", uri=~\".*/blobs.*\"}",
+							"interval": "",
+							"legendFormat": "{{app}} - {{client_name}}",
+							"range": true,
+							"refId": "A"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "HTTP Client Requests Performance  (eric-am-onboarding-service)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 20
+					},
+					"id": 25,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_count{app=\"eric-am-onboarding-service\", uri!=\"/actuator/health/**\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"queryType": "randomWalk",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Request Rate (eric-am-onboarding-service)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 2,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 20
+					},
+					"id": 39,
+					"interval": "",
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(1, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-onboarding-service\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "100%",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-onboarding-service\"}[2m])) by (le)) or on() vector(0)",
+							"format": "time_series",
+							"interval": "",
+							"legendFormat": "99% ",
+							"refId": "B"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-onboarding-service\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "95%",
+							"refId": "C"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.90, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-onboarding-service\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "90%",
+							"refId": "D"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.75, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-onboarding-service\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "75%",
+							"refId": "E"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{app=\"eric-am-onboarding-service\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "50%",
+							"refId": "F"
+						}
+					],
+					"title": "Response time of 50%, 75%, 90%, 95%, 99% & 100% of requests (eric-am-onboarding-service)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 28
+					},
+					"id": 40,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_sum{app=\"eric-am-onboarding-service\", uri!=\"/actuator/health\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Latency (eric-am-onboarding-service)",
+					"type": "timeseries"
+				}
+			],
+			"title": "Onboarding",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"datasource": {
+				"type": "prometheus",
+				"uid": "prometheus"
+			},
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 4
+			},
+			"id": 20,
+			"panels": [
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 5
+					},
+					"id": 41,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-eo-api-gateway\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Request Rate per Second (eric-eo-api-gateway)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 5
+					},
+					"id": 47,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-eo-api-gateway\", status=~\"5..\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Error Rate per Second (eric-eo-api-gateway)",
+					"type": "timeseries"
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 13
+					},
+					"hiddenSeries": false,
+					"id": 62,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_sum{app=\"eric-eo-api-gateway\", status!~\"5..\"}[2m]))/sum(rate(http_server_requests_seconds_count{app=\"eric-eo-api-gateway\", status!~\"5..\"}[2m])) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-AVG",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "max(http_server_requests_seconds_max{app=\"eric-eo-api-gateway\", status!~\"5..\"}) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-MAX",
+							"refId": "B"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "Average Response Latency per Second (eric-eo-api-gateway)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 13
+					},
+					"hiddenSeries": false,
+					"id": 80,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "Mo1nElWIk"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "sum(rate(http_client_requests_seconds_sum{app=\"eric-eo-api-gateway\", status!~\"5..\"}[2m]))/sum(rate(http_client_requests_seconds_count{app=\"eric-eo-api-gateway\", status!~\"5..\"}[2m])) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "Average Client HTTP Request Time",
+							"range": true,
+							"refId": "A"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "Mo1nElWIk"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "max(http_client_requests_seconds_max{app=\"eric-eo-api-gateway\", status!~\"5..\"}) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "Maximum Client HTTP Request Time",
+							"range": true,
+							"refId": "B"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "HTTP Client Requests Performance (eric-eo-api-gateway)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 21
+					},
+					"id": 56,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_count{app=\"eric-eo-api-gateway\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"queryType": "randomWalk",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Request Rate (eric-eo-api-gateway)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 2,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 21
+					},
+					"id": 70,
+					"interval": "",
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(1, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-api-gateway\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "100%",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-api-gateway\"}[2m])) by (le)) or on() vector(0)",
+							"format": "time_series",
+							"interval": "",
+							"legendFormat": "99% ",
+							"refId": "B"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-api-gateway\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "95%",
+							"refId": "C"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.90, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-api-gateway\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "90%",
+							"refId": "D"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.75, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-api-gateway\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "75%",
+							"refId": "E"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-api-gateway\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "50%",
+							"refId": "F"
+						}
+					],
+					"title": "Response time of 50%, 75%, 90%, 95%, 99% & 100% of requests (eric-eo-api-gateway)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 29
+					},
+					"id": 51,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_sum{app=\"eric-eo-api-gateway\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Latency (eric-eo-api-gateway)",
+					"type": "timeseries"
+				}
+			],
+			"title": "API Gateway",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"datasource": {
+				"type": "prometheus",
+				"uid": "prometheus"
+			},
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 5
+			},
+			"id": 18,
+			"panels": [
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 5
+					},
+					"id": 42,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-eo-evnfm-crypto\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Request Rate per Second (eric-eo-evnfm-crypto)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 5
+					},
+					"id": 49,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-eo-evnfm-crypto\", status=~\"5..\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Error Rate per Second (eric-eo-evnfm-crypto)",
+					"type": "timeseries"
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 13
+					},
+					"hiddenSeries": false,
+					"id": 64,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_sum{app=\"eric-eo-evnfm-crypto\", status!~\"5..\"}[2m]))/sum(rate(http_server_requests_seconds_count{app=\"eric-eo-evnfm-crypto\", status!~\"5..\"}[2m])) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-AVG",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "max(http_server_requests_seconds_max{app=\"eric-eo-evnfm-crypto\", status!~\"5..\"}) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-MAX",
+							"refId": "B"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "Average Response Latency per Second (eric-eo-evnfm-crypto)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 2,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 13
+					},
+					"id": 71,
+					"interval": "",
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(1, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-crypto\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "100%",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-crypto\"}[2m])) by (le)) or on() vector(0)",
+							"format": "time_series",
+							"interval": "",
+							"legendFormat": "99% ",
+							"refId": "B"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-crypto\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "95%",
+							"refId": "C"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.90, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-crypto\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "90%",
+							"refId": "D"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.75, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-crypto\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "75%",
+							"refId": "E"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-crypto\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "50%",
+							"refId": "F"
+						}
+					],
+					"title": "Response time of 50%, 75%, 90%, 95%, 99% & 100% of requests (eric-eo-evnfm-crypto)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 21
+					},
+					"id": 57,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_count{app=\"eric-eo-evnfm-crypto\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"queryType": "randomWalk",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Request Rate (eric-eo-evnfm-crypto)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 21
+					},
+					"id": 52,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_sum{app=\"eric-eo-evnfm-crypto\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Latency (eric-eo-evnfm-crypto)",
+					"type": "timeseries"
+				}
+			],
+			"title": "Crypto Service",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"datasource": {
+				"type": "prometheus",
+				"uid": "prometheus"
+			},
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 6
+			},
+			"id": 16,
+			"panels": [
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 6
+					},
+					"id": 45,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-eo-evnfm-nbi\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Request Rate per Second (eric-eo-evnfm-nbi)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 6
+					},
+					"id": 46,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-eo-evnfm-nbi\", status=~\"5..\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Error Rate per Second (eric-eo-evnfm-nbi)",
+					"type": "timeseries"
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 14
+					},
+					"hiddenSeries": false,
+					"id": 63,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_sum{app=\"eric-eo-evnfm-nbi\", status!~\"5..\"}[2m]))/sum(rate(http_server_requests_seconds_count{app=\"eric-eo-evnfm-nbi\", status!~\"5..\"}[2m])) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-AVG",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "max(http_server_requests_seconds_max{app=\"eric-eo-evnfm-nbi\", status!~\"5..\"}) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-MAX",
+							"refId": "B"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "Average Response Latency per Second (eric-eo-evnfm-nbi)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 2,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 14
+					},
+					"id": 68,
+					"interval": "",
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(1, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-nbi\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "100%",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-nbi\"}[2m])) by (le)) or on() vector(0)",
+							"format": "time_series",
+							"interval": "",
+							"legendFormat": "99% ",
+							"refId": "B"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-nbi\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "95%",
+							"refId": "C"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.90, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-nbi\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "90%",
+							"refId": "D"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.75, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-nbi\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "75%",
+							"refId": "E"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-evnfm-nbi\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "50%",
+							"refId": "F"
+						}
+					],
+					"title": "Response time of 50%, 75%, 90%, 95%, 99% & 100% of requests (eric-eo-evnfm-nbi)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 22
+					},
+					"id": 60,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_count{app=\"eric-eo-evnfm-nbi\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"queryType": "randomWalk",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Request Rate (eric-eo-evnfm-nbi)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 22
+					},
+					"id": 53,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_sum{app=\"eric-eo-evnfm-nbi\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Latency (eric-eo-evnfm-nbi)",
+					"type": "timeseries"
+				}
+			],
+			"title": "RBAC/NBI",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"datasource": {
+				"type": "prometheus",
+				"uid": "prometheus"
+			},
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 7
+			},
+			"id": 34,
+			"panels": [
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 7
+					},
+					"id": 44,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-eo-usermgmt\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Request Rate per Second (eric-eo-usermgmt)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 7
+					},
+					"id": 48,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-eo-usermgmt\", status=~\"5..\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Error Rate per Second (eric-eo-usermgmt)",
+					"type": "timeseries"
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 15
+					},
+					"hiddenSeries": false,
+					"id": 66,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_sum{app=\"eric-eo-usermgmt\", status!~\"5..\"}[2m]))/sum(rate(http_server_requests_seconds_count{app=\"eric-eo-usermgmt\", status!~\"5..\"}[2m])) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-AVG",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "max(http_server_requests_seconds_max{app=\"eric-eo-usermgmt\", status!~\"5..\"}) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-MAX",
+							"refId": "B"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "Average Response Latency per Second (eric-eo-usermgmt)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 2,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 15
+					},
+					"id": 69,
+					"interval": "",
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(1, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-usermgmt\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "100%",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-usermgmt\"}[2m])) by (le)) or on() vector(0)",
+							"format": "time_series",
+							"interval": "",
+							"legendFormat": "99% ",
+							"refId": "B"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-usermgmt\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "95%",
+							"refId": "C"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.90, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-usermgmt\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "90%",
+							"refId": "D"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.75, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-usermgmt\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "75%",
+							"refId": "E"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{app=\"eric-eo-usermgmt\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "50%",
+							"refId": "F"
+						}
+					],
+					"title": "Response time of 50%, 75%, 90%, 95%, 99% & 100% of requests (eric-eo-usermgmt)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 23
+					},
+					"id": 59,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_count{app=\"eric-eo-usermgmt\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"queryType": "randomWalk",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Request Rate (eric-eo-usermgmt)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green"
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 23
+					},
+					"id": 54,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_sum{app=\"eric-eo-usermgmt\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Latency (eric-eo-usermgmt)",
+					"type": "timeseries"
+				}
+			],
+			"title": "User Management",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"datasource": {
+				"type": "prometheus",
+				"uid": "prometheus"
+			},
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 8
+			},
+			"id": 32,
+			"panels": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 9
+					},
+					"id": 79,
+					"options": {
+						"legend": {
+							"calcs": [
+								"min",
+								"max",
+								"lastNotNull"
+							],
+							"displayMode": "table",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "hikaricp_connections_active{app=\"eric-vnfm-orchestrator-service\", job=\"eric-vnfm-orchestrator-service\"}",
+							"interval": "",
+							"legendFormat": "Active connections ({{instance}})",
+							"range": true,
+							"refId": "A"
+						},
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "hikaricp_connections_active{app=\"eric-vnfm-orchestrator-service\", job=\"eric-vnfm-orchestrator-service\"} + hikaricp_connections_idle{app=\"eric-vnfm-orchestrator-service\", job=\"eric-vnfm-orchestrator-service\"}",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "All connections ({{instance}})",
+							"range": true,
+							"refId": "B"
+						}
+					],
+					"title": "Connection Pool Usage in seconds (eric-vnfm-orchestrator-service)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": [
+							{
+								"__systemRef": "hideSeriesFrom",
+								"matcher": {
+									"id": "byNames",
+									"options": {
+										"mode": "exclude",
+										"names": [
+											"192.168.62.31:8888"
+										],
+										"prefix": "All except:",
+										"readOnly": true
+									}
+								},
+								"properties": [
+									{
+										"id": "custom.hideFrom",
+										"value": {
+											"legend": false,
+											"tooltip": false,
+											"viz": true
+										}
+									}
+								]
+							}
+						]
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 9
+					},
+					"id": 43,
+					"options": {
+						"legend": {
+							"calcs": [
+								"min",
+								"max",
+								"lastNotNull"
+							],
+							"displayMode": "table",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "ScIbeWr4z"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "hikaricp_connections_usage_seconds_max{app=\"eric-vnfm-orchestrator-service\", job=\"eric-vnfm-orchestrator-service\"}",
+							"interval": "",
+							"legendFormat": "{{instance}}",
+							"range": true,
+							"refId": "A"
+						}
+					],
+					"title": "Connection Pool Usage (eric-vnfm-orchestrator-service)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 17
+					},
+					"id": 78,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-vnfm-orchestrator-service\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m]))by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Request Rate per Second (eric-vnfm-orchestrator-service)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 17
+					},
+					"id": 50,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_count{app=\"eric-vnfm-orchestrator-service\", status=~\"5..\", uri!=\"/actuator/health\", uri!=\"/actuator/prometheus\"}[2m])) by (uri,method) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Error Rate per Second (eric-vnfm-orchestrator-service)",
+					"type": "timeseries"
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 25
+					},
+					"hiddenSeries": false,
+					"id": 65,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "sum(rate(http_server_requests_seconds_sum{app=\"eric-vnfm-orchestrator-service\", status!~\"5..\"}[2m]))/sum(rate(http_server_requests_seconds_count{app=\"eric-vnfm-orchestrator-service\", status!~\"5..\"}[2m])) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-AVG",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "max(http_server_requests_seconds_max{app=\"eric-vnfm-orchestrator-service\", status!~\"5..\"}) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "HTTP-MAX",
+							"refId": "B"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "Average Response Latency per Second (eric-vnfm-orchestrator-service)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"datasource": {
+						"uid": "$SOURCE"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 2,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 25
+					},
+					"id": 67,
+					"interval": "",
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(1, sum(rate(http_server_requests_seconds_bucket{app=\"eric-vnfm-orchestrator-service\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "100%",
+							"refId": "A"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{app=\"eric-vnfm-orchestrator-service\"}[2m])) by (le)) or on() vector(0)",
+							"format": "time_series",
+							"interval": "",
+							"legendFormat": "99% ",
+							"refId": "B"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{app=\"eric-vnfm-orchestrator-service\"}[2m])) by (le)) or on() vector(0)",
+							"hide": false,
+							"interval": "",
+							"legendFormat": "95%",
+							"refId": "C"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.90, sum(rate(http_server_requests_seconds_bucket{app=\"eric-vnfm-orchestrator-service\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "90%",
+							"refId": "D"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.75, sum(rate(http_server_requests_seconds_bucket{app=\"eric-vnfm-orchestrator-service\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "75%",
+							"refId": "E"
+						},
+						{
+							"exemplar": true,
+							"expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{app=\"eric-vnfm-orchestrator-service\"}[2m])) by (le)) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "50%",
+							"refId": "F"
+						}
+					],
+					"title": "Response time of 50%, 75%, 90%, 95%, 99% & 100% of requests (eric-vnfm-orchestrator-service)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"links": [],
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "short"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 33
+					},
+					"id": 58,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_count{app=\"eric-vnfm-orchestrator-service\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"queryType": "randomWalk",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Request Rate (eric-vnfm-orchestrator-service)",
+					"type": "timeseries"
+				},
+				{
+					"datasource": {
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"color": {
+								"mode": "palette-classic"
+							},
+							"custom": {
+								"axisLabel": "",
+								"axisPlacement": "auto",
+								"barAlignment": 0,
+								"drawStyle": "line",
+								"fillOpacity": 10,
+								"gradientMode": "none",
+								"hideFrom": {
+									"legend": false,
+									"tooltip": false,
+									"viz": false
+								},
+								"lineInterpolation": "linear",
+								"lineWidth": 1,
+								"pointSize": 5,
+								"scaleDistribution": {
+									"type": "linear"
+								},
+								"showPoints": "never",
+								"spanNulls": true,
+								"stacking": {
+									"group": "A",
+									"mode": "none"
+								},
+								"thresholdsStyle": {
+									"mode": "off"
+								}
+							},
+							"mappings": [],
+							"thresholds": {
+								"mode": "absolute",
+								"steps": [
+									{
+										"color": "green",
+										"value": null
+									},
+									{
+										"color": "red",
+										"value": 80
+									}
+								]
+							},
+							"unit": "s"
+						},
+						"overrides": []
+					},
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 33
+					},
+					"id": 55,
+					"options": {
+						"legend": {
+							"calcs": [],
+							"displayMode": "list",
+							"placement": "bottom"
+						},
+						"tooltip": {
+							"mode": "single",
+							"sort": "none"
+						}
+					},
+					"pluginVersion": "8.0.5",
+					"targets": [
+						{
+							"exemplar": true,
+							"expr": "topk(10, sum by(uri, method) (rate(http_server_requests_seconds_sum{app=\"eric-vnfm-orchestrator-service\", uri!=\"/actuator/health/**\", uri!=\"/actuator/prometheus\"}[2m]))) or on() vector(0)",
+							"interval": "",
+							"legendFormat": "{{method}} {{uri}}",
+							"refId": "A"
+						}
+					],
+					"title": "Top 10 API's by Latency (eric-vnfm-orchestrator-service)",
+					"type": "timeseries"
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 0,
+						"y": 41
+					},
+					"hiddenSeries": false,
+					"id": 81,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "Mo1nElWIk"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "http_client_requests_seconds_max{app=\"eric-vnfm-orchestrator-service\", status!~\"5..\", status!~\"4..\", client_name=~\"eric-am-onboarding-service.*\"}",
+							"interval": "",
+							"legendFormat": "{{app}} - {{client_name}}",
+							"range": true,
+							"refId": "A"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "HTTP Client Requests Performance (eric-vnfm-orchestrator-service)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 41
+					},
+					"hiddenSeries": false,
+					"id": 87,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "Mo1nElWIk"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "http_client_requests_seconds_max{app=\"eric-vnfm-orchestrator-service\", status!~\"5..\", status!~\"4..\", client_name=~\"eric-am-common-wfs.*\"}",
+							"interval": "",
+							"legendFormat": "{{app}} - {{client_name}}",
+							"range": true,
+							"refId": "A"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "HTTP Client Requests Performance (eric-vnfm-orchestrator-service)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				},
+				{
+					"aliasColors": {},
+					"bars": false,
+					"dashLength": 10,
+					"dashes": false,
+					"datasource": {
+						"type": "prometheus",
+						"uid": "${SOURCE}"
+					},
+					"description": "",
+					"fieldConfig": {
+						"defaults": {
+							"links": []
+						},
+						"overrides": []
+					},
+					"fill": 1,
+					"fillGradient": 0,
+					"gridPos": {
+						"h": 8,
+						"w": 12,
+						"x": 12,
+						"y": 49
+					},
+					"hiddenSeries": false,
+					"id": 88,
+					"legend": {
+						"avg": false,
+						"current": true,
+						"max": false,
+						"min": false,
+						"show": true,
+						"total": false,
+						"values": true
+					},
+					"lines": true,
+					"linewidth": 1,
+					"nullPointMode": "null",
+					"options": {
+						"alertThreshold": true
+					},
+					"percentage": false,
+					"pluginVersion": "8.5.1",
+					"pointradius": 2,
+					"points": false,
+					"renderer": "flot",
+					"seriesOverrides": [],
+					"spaceLength": 10,
+					"stack": false,
+					"steppedLine": false,
+					"targets": [
+						{
+							"datasource": {
+								"type": "prometheus",
+								"uid": "Mo1nElWIk"
+							},
+							"editorMode": "code",
+							"exemplar": true,
+							"expr": "http_client_requests_seconds_max{app=\"eric-vnfm-orchestrator-service\", status!~\"5..\", status!~\"4..\", client_name=~\"eric-eo-evnfm-crypto.*\"}",
+							"interval": "",
+							"legendFormat": "{{app}} - {{client_name}}",
+							"range": true,
+							"refId": "A"
+						}
+					],
+					"thresholds": [],
+					"timeRegions": [],
+					"title": "HTTP Client Requests Performance (eric-vnfm-orchestrator-service)",
+					"tooltip": {
+						"shared": true,
+						"sort": 0,
+						"value_type": "individual"
+					},
+					"type": "graph",
+					"xaxis": {
+						"mode": "time",
+						"show": true,
+						"values": []
+					},
+					"yaxes": [
+						{
+							"format": "s",
+							"logBase": 1,
+							"min": "0",
+							"show": true
+						},
+						{
+							"format": "short",
+							"logBase": 1,
+							"show": true
+						}
+					],
+					"yaxis": {
+						"align": false
+					}
+				}
+			],
+			"title": "Orchestrator",
+			"type": "row"
+		}
+	],
+	"refresh": "",
+	"schemaVersion": 36,
+	"style": "dark",
+	"tags": [],
+	"templating": {
+		"list": [
+			{
+				"current": {
+					"selected": false,
+					"text": "default",
+					"value": "default"
+				},
+				"hide": 0,
+				"includeAll": false,
+				"multi": false,
+				"name": "SOURCE",
+				"options": [],
+				"query": "prometheus",
+				"queryValue": "",
+				"refresh": 1,
+				"regex": ".+",
+				"skipUrlSync": false,
+				"type": "datasource"
+			}
+		]
+	},
+	"time": {
+		"from": "now-3h",
+		"to": "now"
+	},
+	"timepicker": {
+		"refresh_intervals": [
+			"5s",
+			"10s",
+			"30s",
+			"1m",
+			"5m",
+			"15m",
+			"30m",
+			"1h",
+			"2h",
+			"1d"
+		]
+	},
+	"timezone": "",
+	"title": "CVNFM - RED Metrics All",
+	"uid": "red",
+	"version": 40,
+	"weekStart": ""
+}
